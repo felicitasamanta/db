@@ -1,16 +1,20 @@
 <?php
 require_once 'db.php';
-
-$result2 = $db->query('SELECT * FROM positions');
-$positions = $result2->fetchAll((PDO::FETCH_ASSOC));
-
 if (isset($_GET['delete'])) {
     $stm = $db->prepare('DELETE  FROM employees WHERE id=? ');
     $stm->execute([$_GET['delete']]);
 
 }
-$result = $db->query('SELECT * FROM employees');
+$result = $db->query('SELECT employees.*, positions.name as position FROM employees
+LEFT JOIN positions ON employees.position_id = positions.id ');
 $employees = $result->fetchAll(PDO::FETCH_ASSOC);
+
+
+$stm = $db->prepare("SELECT id,name FROM positions");
+$stm->execute([]);
+$positions = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <!doctype html>
@@ -28,6 +32,19 @@ $employees = $result->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <div class="container">
     <div class="row">
+
+        <div class="mt-5 col-sm-12 col-md-12 col-lg-12 mb-3">
+            <div class="card">
+                <div class="card-header fw-bold bg-primary">Employees by positions</div>
+                <div class="card-body d-flex gap-3">
+                    <?php foreach ($positions as $position) { ?>
+                        <a href="position.php?id=<?= $position['id'] ?>"
+                           class="btn btn-info"><?= $position['name'] ?></a>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+
         <div class="mt-5 col-sm-12 col-md-12 col-lg-12 mb-3">
             <div class="card">
                 <div class="card-header fw-bold bg-primary">Employees List</div>
@@ -40,6 +57,7 @@ $employees = $result->fetchAll(PDO::FETCH_ASSOC);
                             <th>Name</th>
                             <th>Surname</th>
                             <th>Education</th>
+                            <th>Position</th>
                             <th>Salary</th>
                             <th>Phone</th>
                             <th>MORE</th>
@@ -53,42 +71,19 @@ $employees = $result->fetchAll(PDO::FETCH_ASSOC);
                                 <td> <?= $employee['name'] ?></td>
                                 <td> <?= $employee['surname'] ?></td>
                                 <td> <?= $employee['education'] ?></td>
+                                <td> <?= $employee['position'] ?></td>
                                 <td> <?= $employee['salary'] ?> EUR</td>
                                 <td> <?= $employee['phone'] ?></td>
                                 <td><a class="btn btn-primary" href="employee.php?id=<?= $employee['id'] ?>">More</a>
                                 </td>
                                 <td><a class="btn btn-info" href="update.php?id=<?= $employee['id'] ?>">Update</a></td>
-                                <td><a class="btn btn-danger" href="index.php?delete=<?= $employee['id'] ?>">Delete</a></td>
+                                <td><a class="btn btn-danger" href="index.php?delete=<?= $employee['id'] ?>">Delete</a>
+                                </td>
                             </tr>
                         <?php } ?>
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-5 mt-3 mb-3">
-            <div class="card">
-                <div class="card-header fw-bold bg-primary">Base salary</div>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Position</th>
-                        <th>Base salary</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($positions as $position) { ?>
-                        <tr>
-                            <td><?= $position['name'] ?></td>
-                            <td><?= $position['base_salary'] ?> EUR</td>
-                        </tr>
-                    <?php } ?>
-                    </tbody>
-
-                </table>
             </div>
         </div>
     </div>

@@ -22,24 +22,28 @@ $employee = $stm->fetch(PDO::FETCH_ASSOC);
 <body>
 <div class="container mt-3 mb-3">
     <div>
-        <h1> <?= $employee['name']." ".$employee['surname'] ?> </h1> <hr>
+        <h1> <?= $employee['name'] . " " . $employee['surname'] ?> </h1>
+        <hr>
         <div class="row">
             <div class="col-6">
-                <p class="fw-bold">Išsilavinimas: <br> <p> <?= $employee['education'] ?></p></p> </div>
-           <div class="col-6">
-               <p class="fw-bold"> Telefonas: <br> <p> <?= $employee['phone'] ?></p></p> </p>
+                <p class="fw-bold">Išsilavinimas: <br>
+                <p> <?= $employee['education'] ?></p></p> </div>
+            <div class="col-6">
+                <p class="fw-bold"> Telefonas: <br>
+                <p> <?= $employee['phone'] ?></p></p> </p>
             </div>
 
         </div>
-    <div class="col-12">
-        <p class=" fw-bold">Mėnesinė alga: <br> <p> <?= $employee['salary'] ?> EUR</p> </p></div>
+        <div class="col-12">
+            <p class=" fw-bold">Mėnesinė alga: <br>
+            <p> <?= $employee['salary'] ?> EUR</p> </p></div>
         <div class="card col-md-8 col-sm-10 border border-primary">
             <div class="card-header bg-primary text-light">Mokesčiai</div>
             <div>
                 <table class="table ">
                     <tr class="col-md-8 col-sm-10">
                         <td class="col-md-6 col-sm-8">Priskaičiuotas atlyginimas „ant popieriaus"</td>
-                        <td class="col-md-2 col-sm-2 text-end"><?= number_format(( $employee['salary']),2) ?> EUR</td>
+                        <td class="col-md-2 col-sm-2 text-end"><?= number_format(($employee['salary']), 2) ?> EUR</td>
                     </tr>
                     <tr class="col-md-8 col-sm-10">
                         <td class="col-md-6 col-sm-8">Pritaikytas NPD</td>
@@ -52,15 +56,19 @@ $employee = $stm->fetch(PDO::FETCH_ASSOC);
                     </tr
                     <tr class="col-md-8 col-sm-10">
                         <td class="col-md-6 col-sm-8">Sodra. Sveikatos draudimas 6.98 %</td>
-                        <td class="col-md-2 col-sm-2 text-end"><?= number_format(round($employee['salary'] * 0.0698, 2),2) ?> EUR</td>
+                        <td class="col-md-2 col-sm-2 text-end"><?= number_format(round($employee['salary'] * 0.0698, 2), 2) ?>
+                            EUR
+                        </td>
                     </tr>
                     <tr class="col-md-8 col-sm-10">
                         <td class="col-md-6 col-sm-8">Sodra. Socialinis draudimas 12.52 %</td>
-                        <td class="col-md-2 col-sm-2 text-end"><?= number_format(($employee['salary'] * 0.1252),2 )?> EUR</td>
+                        <td class="col-md-2 col-sm-2 text-end"><?= number_format(($employee['salary'] * 0.1252), 2) ?>
+                            EUR
+                        </td>
                     </tr>
                     <tr class="bg-primary bg-opacity-10 col-md-8 col-sm-10">
                         <td class="col-md-6 col-sm-8">Išmokamas atlyginimas „į rankas"</td>
-                        <td class="col-md-2 col-sm-2 text-end fw-bold"><?= number_format(($employee['salary'] - ($employee['salary'] * 0.0698 + $employee['salary'] * 0.1252)),2) ?>
+                        <td class="col-md-2 col-sm-2 text-end fw-bold"><?= number_format(($employee['salary'] - ($employee['salary'] * 0.0698 + $employee['salary'] * 0.1252)), 2) ?>
                             EUR
                         </td>
                     </tr>
@@ -70,11 +78,15 @@ $employee = $stm->fetch(PDO::FETCH_ASSOC);
                     </tr>
                     <tr class="col-md-8 col-sm-10">
                         <td class="col-md-6 col-sm-8">Sodra 1.77 %</td>
-                        <td class="col-md-2 col-sm-2 text-end"><?= number_format($employee['salary'] * 0.0177, 2) ?> EUR</td>
+                        <td class="col-md-2 col-sm-2 text-end"><?= number_format($employee['salary'] * 0.0177, 2) ?>
+                            EUR
+                        </td>
                     </tr>
                     <tr class="bg-primary bg-opacity-10 col-md-8 col-sm-10">
                         <td class="col-md-6 col-sm-8">Visa darbo vieta</td>
-                        <td class="col-md-2 col-sm-2 text-end fw-bold"><?= number_format(($employee['salary'] * 1.0177),2) ?> EUR</td>
+                        <td class="col-md-2 col-sm-2 text-end fw-bold"><?= number_format(($employee['salary'] * 1.0177), 2) ?>
+                            EUR
+                        </td>
                     </tr>
 
 

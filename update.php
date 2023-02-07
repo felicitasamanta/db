@@ -6,11 +6,14 @@ $stm->execute([$id]);
 $employee = $stm->fetch(PDO::FETCH_ASSOC);
 
 if (isset($_POST['update'])) {
-    $stm = $db->prepare("UPDATE employees SET name = ?, surname=?, education=?, salary=?, phone=? WHERE id =?");
-    $stm->execute([$_POST['name'], $_POST['surname'], $_POST['education'], $_POST['salary'], $_POST['phone'], $id]);
+    $stm = $db->prepare("UPDATE employees SET name = ?, surname=?, education=?, position_id = ?, salary=?, phone=? WHERE id =?");
+    $stm->execute([$_POST['name'], $_POST['surname'], $_POST['education'], $_POST['position_id'], $_POST['salary'], $_POST['phone'], $id]);
     header("location: index.php");
     die();
 }
+$stm = $db->prepare("SELECT id,name FROM positions");
+$stm->execute([]);
+$positions = $stm->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!doctype html>
@@ -48,6 +51,18 @@ if (isset($_POST['update'])) {
                             <label class="form-label" for="education">Education</label>
                             <input type="text" class="form-control" name="education"
                                    value="<?= strip_tags($employee['education'], '<br>') ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="position">Position</label>
+                            <select class="form-control" name="position_id">
+                                <?php foreach ($positions as $position) { ?>
+                                    <option value="<?= $position['id'] ?>"
+                                        <?= $employee['position_id'] == $position['id'] ? 'selected' : '' ?>
+                                    >
+                                        <?= $position['name'] ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="salary">Salary</label>
